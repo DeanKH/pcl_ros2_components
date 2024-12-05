@@ -12,7 +12,6 @@ VoxelGridFilterComponent::VoxelGridFilterComponent(const rclcpp::NodeOptions & o
 : FilterNode("voxel_grid_node", options)
 {
   parameter_listener_ = std::make_shared<voxel_grid::ParamListener>(this->get_node_parameters_interface());
-  
 }
 
 void VoxelGridFilterComponent::Filter(const sensor_msgs::msg::PointCloud2::SharedPtr msg)
@@ -21,27 +20,18 @@ void VoxelGridFilterComponent::Filter(const sensor_msgs::msg::PointCloud2::Share
   float leaf_x = static_cast<float>(params.leaf_size.x);
   float leaf_y = static_cast<float>(params.leaf_size.y);
   float leaf_z = static_cast<float>(params.leaf_size.z);
-  // RCLCPP_INFO_STREAM(this->get_logger(), "receive new data: " << msg->header.stamp.sec << "." << msg->header.stamp.nanosec);
-  // Convert the sensor_msgs::msg::PointCloud2 message to a pcl::PointCloud
-  pcl::PCLPointCloud2 pcl_pc2;
-  pcl_conversions::toPCL(*msg, pcl_pc2);
-  pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZRGB>);
-  pcl::fromPCLPointCloud2(pcl_pc2, *cloud);
+  pcl::PCLPointCloud2::Ptr pcl_pc2(new pcl::PCLPointCloud2);;
+  pcl_conversions::toPCL(*msg, *pcl_pc2);
 
-  // Create the filtering object
-  pcl::VoxelGrid<pcl::PointXYZRGB> vgf;
-  vgf.setInputCloud(cloud);
+  pcl::VoxelGrid<pcl::PCLPointCloud2> vgf;
+  vgf.setInputCloud(pcl_pc2);
   vgf.setLeafSize(leaf_x, leaf_y, leaf_z);
-  pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_filtered(new pcl::PointCloud<pcl::PointXYZRGB>);
-  vgf.filter(*cloud_filtered);
+  pcl::PCLPointCloud2::Ptr pcl_pc2_filtered(new pcl::PCLPointCloud2);
+  vgf.filter(*pcl_pc2_filtered);
 
-  // Convert the pcl::PointCloud back to a sensor_msgs::msg::PointCloud2 message
-  pcl::PCLPointCloud2 pcl_pc2_filtered;
-  pcl::toPCLPointCloud2(*cloud_filtered, pcl_pc2_filtered);
   sensor_msgs::msg::PointCloud2::SharedPtr msg_filtered(new sensor_msgs::msg::PointCloud2);
-  pcl_conversions::fromPCL(pcl_pc2_filtered, *msg_filtered);
+  pcl_conversions::fromPCL(*pcl_pc2_filtered, *msg_filtered);
 
-  // Publish the filtered point cloud
   pub_->publish(*msg_filtered);
 }
 }  // namespace pcl_ros2
