@@ -1,0 +1,20 @@
+voxel_grid:
+  leaf_size:
+    x:
+      type: double
+      default_value: 0.05
+      description: "The size of the leaf in the x direction."
+      validation:
+        gt_eq<>: [0.001]
+    y:
+      type: double
+      default_value: 0.05
+      description: "The size of the leaf in the x direction."
+      validation:
+        gt_eq<>: [0.001]
+    z:
+      type: double
+      default_value: 0.05
+      description: "The size of the leaf in the x direction."
+      validation:
+        gt_eq<>: [0.001]
