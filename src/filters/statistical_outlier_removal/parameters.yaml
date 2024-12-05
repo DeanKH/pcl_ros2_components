@@ -1,0 +1,7 @@
+statistical_outlier_removal:
+  mean_k:
+    type: int
+    default_value: 50
+  std_dev_mul_thresh:
+    type: double
+    default_value: 1.0
