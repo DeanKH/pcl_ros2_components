@@ -1,2 +1,2 @@
-
 add_subdirectory(voxel_grid)
+add_subdirectory(pass_through)

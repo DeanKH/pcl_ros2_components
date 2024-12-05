@@ -1,0 +1,32 @@
+pass_through:
+  field:
+    x:
+      enable:
+        type: bool
+        default_value: false
+      min:
+        type: double
+        default_value: -999999.0
+      max:
+        type: double
+        default_value: 999999.0
+    y:
+      enable:
+        type: bool
+        default_value: false
+      min:
+        type: double
+        default_value: -999999.0
+      max:
+        type: double
+        default_value: 999999.0
+    z:
+      enable:
+        type: bool
+        default_value: false
+      min:
+        type: double
+        default_value: -999999.0
+      max:
+        type: double
+        default_value: 999999.0
