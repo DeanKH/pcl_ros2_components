@@ -38,6 +38,8 @@ set(dependencies
 include_directories(include)
 
 add_subdirectory(src/filters)
+add_subdirectory(src/features)
+
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
